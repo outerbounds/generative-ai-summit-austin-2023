@@ -7,6 +7,16 @@
       "numbered": true,
       "sections": [
         {
+          "title": "Setup",
+          "description": "Welcome to the Generative AI World Summit!",
+          "path": "./setup.ipynb",
+          "action": {
+            "type": "open",
+            "value": "./setup.ipynb",
+            "label": "Open Notebook"
+          }
+        },
+        {
           "title": "Welcome",
           "description": "Welcome to the Generative AI World Summit!",
           "path": "./flow.py",
