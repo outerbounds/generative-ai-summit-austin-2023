@@ -1,0 +1,27 @@
+{
+    "folders": [
+      {
+        "path": "."
+      }
+    ],
+    "settings": {
+      "python.defaultInterpreterPath": "/home/workspace/mambaforge/envs/sandbox-tutorial/bin/python",
+      "python.terminal.activateEnvInCurrentTerminal": true,
+      "workbench.editor.showTabs": false,
+      "workbench.startupEditor": "none",
+      "editor.minimap.enabled": false,
+      "breadcrumbs.enabled": false,
+      "terminal.integrated.tabs.showActiveTerminal": "singleTerminal",
+      "terminal.integrated.tabs.enabled": false,
+      "terminal.integrated.env.linux": {
+        // "METAFLOW_DECOSPECS": "card:type=sandbox_lesson",
+        "PYTHONPATH": "/home/workspace/workspaces/tutorials"
+      },
+      "workbench.colorTheme": "theme-ob-light",
+      "files.exclude": {
+        "**/.ob-metadata.json": true,
+        "metaflow_extensions": true
+      }
+    }
+  }
+  

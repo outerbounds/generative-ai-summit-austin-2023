@@ -1,0 +1,25 @@
+{
+    "meta": {},
+    "data": {
+      "id": "tutorials",
+      "title": "Introduction to Metaflow",
+      "showPrimaryView": true,
+      "numbered": true,
+      "sections": [
+        {
+          "title": "Welcome",
+          "description": "Welcome to the Generative AI World Summit!",
+          "path": "./flow.py",
+          "doc": "./README.html",
+          "action": {
+            "type": "run",
+            "value": "./flow.py",
+            "label": "Run Flow"
+          }
+        }
+        
+      ],
+      "links": []
+    }
+  }
+  
