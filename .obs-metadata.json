@@ -10,7 +10,6 @@
           "title": "Setup",
           "description": "Welcome to the Generative AI World Summit!",
           "path": "./00-section/setup.ipynb",
-          "doc": "./00-section/README.html",
           "action": {
             "type": "open",
             "value": "./00-section/setup.ipynb",
@@ -20,11 +19,20 @@
         {
           "title": "Getting Started with LLM Inference",
           "description": "Getting Started with LLM Inference",
-          "path": "./01-section/hello.ipynb",
-          "doc": "./01-section/README.html",
+          "path": "./01-section/nb.ipynb",
           "action": {
             "type": "open",
-            "value": "./01-section/hello.ipynb",
+            "value": "./01-section/nb.ipynb",
+            "label": "Open Notebook"
+          }
+        },
+        {
+          "title": "Prompt Engineering",
+          "description": "Prompt Engineering",
+          "path": "./02-section/nb.ipynb",
+          "action": {
+            "type": "open",
+            "value": "./02-section/nb.ipynb",
             "label": "Open Notebook"
           }
         }
