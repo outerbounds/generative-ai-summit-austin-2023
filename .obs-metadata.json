@@ -7,14 +7,53 @@
       "numbered": true,
       "sections": [
         {
-          "title": "Welcome",
+          "title": "Setup",
           "description": "Welcome to the Generative AI World Summit!",
-          "path": "./flow.py",
-          "doc": "./README.html",
+          "path": "./00-section/setup.ipynb"
+        },
+        {
+          "title": "Getting Started with LLM Inference",
+          "description": "Getting Started with LLM Inference",
+          "path": "./01-section/nb.ipynb"
+        },
+        {
+          "title": "Prompt Engineering",
+          "description": "Prompt Engineering",
+          "path": "./02-section/nb.ipynb"
+        },
+        {
+          "title": "RAG and Vector DBs",
+          "description": "Retrieval-augmented Generation and Vector DBs",
+          "path": "./03-section/nb.ipynb"
+        },
+        {
+          "title": "Data Chunking Workflow",
+          "description": "Data Chunking Workflow",
+          "path": "./04-section/flow.py",
           "action": {
-            "type": "run",
-            "value": "./flow.py",
-            "label": "Run Flow"
+            "type": "deploy",
+            "value": "./04-section/flow.py",
+            "label": "Deploy Workflow to Argo"
+          }
+        },
+        {
+          "title": "Post-processing Workflow",
+          "description": "Post-processing Workflow",
+          "path": "./05-section/flow.py",
+          "action": {
+            "type": "deploy",
+            "value": "./05-section/flow.py",
+            "label": "Deploy Workflow to Argo"
+          }
+        },
+        {
+          "title": "Pinecone Vector Indexing Workflow",
+          "description": "Pinecone Vector Indexing Workflow",
+          "path": "./06-section/flow.py",
+          "action": {
+            "type": "deploy",
+            "value": "./06-section/flow.py",
+            "label": "Deploy Workflow to Argo"
           }
         }
         
