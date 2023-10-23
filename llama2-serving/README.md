@@ -63,6 +63,7 @@ python3 -m pip install huggingface_hub
 
 # Run the Triton server
 ```
+cd /models/llm/llama2/1
 tritonserver --model-repository=/models/llm --log-verbose=2
 ```
 
