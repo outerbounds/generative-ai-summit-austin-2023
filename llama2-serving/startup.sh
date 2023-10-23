@@ -1,0 +1,10 @@
+python3 -m pip install app
+python3 -m pip install torch
+python3 -m pip install scipy
+python3 -m pip install metaflow
+python3 -m pip install accelerate
+python3 -m pip install bitsandbytes
+python3 -m pip install peft
+python3 -m pip install trl
+python3 -m pip install transformers
+python3 -m pip install huggingface_hub
