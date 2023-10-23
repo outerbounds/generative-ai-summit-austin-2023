@@ -14597,8 +14597,13 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="We-can-change-the-response-from-the-models-without-changing-the-models!">We can change the response from the models without changing the models!<a class="anchor-link" href="#We-can-change-the-response-from-the-models-without-changing-the-models!">&#182;</a></h1><p>In this lesson we will begin exploring ways to make LLM responses more relevant to end users. In traditional search applications, Google provides us a <a href="https://support.google.com/websearch/answer/35890?sjid=5982066035738547434-NA">variety</a> <a href="https://support.google.com/websearch/answer/142143?sjid=5982066035738547434-NA">of</a> <a href="https://blog.google/products/search/how-were-improving-search-results-when-you-use-quotes/">ways</a> to make precise queries. LLMs are similar in that there are specific ways to write queries and influence LLMs whether ChatGPT, OpenAI APIs, or open-source models.</p>
-<p>You will see how to modify your ChatGPT interface to get it to do more of what you want, and we will also implement the same approach programmatically with a trending framework called <a href="https://python.langchain.com/docs/get_started/introduction">Langchain</a>.</p>
+<h1 id="We-can-change-the-response-from-the-models-without-changing-the-models!">We can change the response from the models without changing the models!<a class="anchor-link" href="#We-can-change-the-response-from-the-models-without-changing-the-models!">&#182;</a></h1><p>In this lesson we will explore ways to make LLM responses more relevant to end users through prompt engineering. To set the stage, consider the analog in traditional search engines, such as how Google provides us a <a href="https://support.google.com/websearch/answer/35890?sjid=5982066035738547434-NA">variety</a> <a href="https://support.google.com/websearch/answer/142143?sjid=5982066035738547434-NA">of</a> <a href="https://blog.google/products/search/how-were-improving-search-results-when-you-use-quotes/">ways</a> to make queries more precise. LLMs are similar in that there are specific ways to write prompts that influence LLM APIs and the downstream Chat bots.</p>
+<p>You will learn</p>
+<ul>
+<li>how to modify your ChatGPT interface to get it to do more of what you want,</li>
+<li>how to implement the same approach programmatically with a trending framework called <a href="https://python.langchain.com/docs/get_started/introduction">Langchain</a>, and</li>
+<li>a basic introduction to different fields of research around prompting - centered around &quot;chain-of-thought reasoning&quot;.</li>
+</ul>
 <blockquote>
 <p>&quot;In the vast majority of cases, we believe well-crafted prompts will get you the results you want&quot; - <a href="https://www.anthropic.com/product">Anthropic documentation</a></p>
 </blockquote>
@@ -14613,32 +14618,17 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<img style="display: block; float: center; max-width: 80%; height: auto; margin: auto; float: none!important;" src="./relevance-blobs-1.png"/>
-<br/>
-<center> A selection of ways to increase the relevance of LLM API responses - this notebook is about going from 1 to 2 </center>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="System-Messages">System Messages<a class="anchor-link" href="#System-Messages">&#182;</a></h2><p>System prompts are used to steer the way that ChatGPT responds to questions. Here is a <a href="https://github.com/mustvlad/ChatGPT-System-Prompts">repo of examples</a>.
-If you use ChatGPT regularly you should know about this.</p>
-<h3 id="Get-started">Get started<a class="anchor-link" href="#Get-started">&#182;</a></h3><p>Open <a href="https://chat.openai.com/">ChatGPT</a></p>
-<p>In the &quot;What would you like ChatGPT to know about you to provide better responses?&quot; box:</p>
-<pre><code>You are a magical gnome that writes whimsical, yet highly informative poems about very boring topics in computer programming and business.
-</code></pre>
+ Not all of the LLM models will respond to system prompts like ChatGPT/GPT-4, where this is an explicit feature of the product. Later we will see how to do these things programmatically. If you use ChatGPT regularly, you should know about this feature of the GPT family and LLMs generally!</p>
+<h3 id="Get-started-with-ChatGPT">Get started with ChatGPT<a class="anchor-link" href="#Get-started-with-ChatGPT">&#182;</a></h3><p>Open <a href="https://chat.openai.com/">ChatGPT</a></p>
 <p>In the &quot;How would you like ChatGPT to respond?&quot; box:</p>
-<pre><code>Make rhymes.
+<pre><code>You are a garden gnome that writes whimsical and highly informative poems about boring topics in computer programming and business, connecting these topics to the natural beauty of mother earth.
+
+Make rhymes.
 Make responses fun and lighthearted.
 Make responses precise and accurate.
 </code></pre>
-<p>Then ask a boring question about computer programming or business and see what happens!</p>
+<h3 id="The-recipe">The recipe<a class="anchor-link" href="#The-recipe">&#182;</a></h3><p>Then ask a boring question about computer programming or business and see what happens!</p>
 <p>This is a silly example to help you get started, and <a href="https://betterprogramming.pub/i-know-you-have-been-trained-up-to-2021-chatgpt-system-messages-explained-146a5513e753">here</a> is a more serious guide containing insights such as:</p>
 <ul>
 <li>Clearly define the role you want ChatGPT to play</li>
@@ -14656,7 +14646,7 @@ Make responses precise and accurate.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Prompt-Templates">Prompt Templates<a class="anchor-link" href="#Prompt-Templates">&#182;</a></h2><p>Prompt templates are in the realm of recent tools like Langchain, designed to help us interface with LLMs.
+<h2 id="Prompt-Templating">Prompt Templating<a class="anchor-link" href="#Prompt-Templating">&#182;</a></h2><p>Prompt templates are in the realm of recent tools like Langchain, designed to help us interface with LLMs.
 Essentially, prompt templates extend the idea of the system message into something like superpowered string formatting or jinja templating.</p>
 <blockquote>
 <p>&quot;Prompt templates are pre-defined recipes for generating prompts for language models. A template may include instructions, few-shot examples, and specific context and questions appropriate for a given task.&quot; - <a href="https://python.langchain.com/docs/modules/model_io/prompts/prompt_templates/">Langchain docs</a></p>
@@ -14739,8 +14729,11 @@ Essentially, prompt templates extend the idea of the system message into somethi
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">chat</span><span class="p">(</span><span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="n">input_language</span><span class="o">=</span><span class="s2">&quot;English&quot;</span><span class="p">,</span> <span class="n">output_language</span><span class="o">=</span><span class="s2">&quot;German&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;I love programming.&quot;</span><span class="p">))</span>
-<span class="n">response</span><span class="o">.</span><span class="n">content</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">inp</span><span class="o">=</span><span class="s2">&quot;English&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s2">&quot;German&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;I love programming?&quot;</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">chat</span><span class="p">(</span><span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="n">input_language</span><span class="o">=</span><span class="n">inp</span><span class="p">,</span> <span class="n">output_language</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+
+<span class="n">translate</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -14771,6 +14764,159 @@ Essentially, prompt templates extend the idea of the system message into somethi
 
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Programmatic-approaches-to-prompting">Programmatic approaches to prompting<a class="anchor-link" href="#Programmatic-approaches-to-prompting">&#182;</a></h1><p>There are many variants on prompt engineering research over the last year.</p>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Title</th>
+  <th style="text-align:center">Medium</th>
+  <th style="text-align:center">Organizations</th>
+  <th style="text-align:center">Date</th>
+  <th style="text-align:center">Code</th>
+  <th style="text-align:center">Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/pdf/2110.08387.pdf">Generated Knowledge Prompting for Commonsense Reasoning</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">U Washington, Allen AI</td>
+  <td style="text-align:center">September 2022</td>
+  <td style="text-align:center"><a href="https://github.com/liujch1998/GKP">https://github.com/liujch1998/GKP</a></td>
+  <td style="text-align:center"></td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/abs/2201.11903">Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Google Brain</td>
+  <td style="text-align:center">January 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">Chain of Thought</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/abs/2211.10435">PAL: Program-aided Language Models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">CMU</td>
+  <td style="text-align:center">January 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center"></td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://matt-rickard.com/chain-of-thought-in-llms">Chain of Thought Paradigms in LLMs</a></td>
+  <td style="text-align:center">Blog</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">March 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">Chain of Thought</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/pdf/2210.03629.pdf">ReAct: Synergizing Reasoning and Acting in Language Models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Google Brain, Princeton</td>
+  <td style="text-align:center">March 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">ReAct</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/abs/2203.11171">Self-Consistency Improves Chain of Thought Reasoning in Language Models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Google</td>
+  <td style="text-align:center">March 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center"></td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/pdf/2303.09014.pdf">ART: Automatic multi-step reasoning and tool-use for large language models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">U Washington, Microsoft, UC Irvine, Allen AI</td>
+  <td style="text-align:center">March 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">Automatic Reasoning and Tool Use</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/pdf/2205.10625.pdf">Least-to-most prompting enables complex reasoning in large language models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Google Brain</td>
+  <td style="text-align:center">April 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center"></td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/pdf/2210.03350.pdf">Measuring and Narrowing the Compositionality Gap in Language Models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">U Washington, MosaicML, Meta AI, Allen AI</td>
+  <td style="text-align:center">May 2023</td>
+  <td style="text-align:center"><a href="https://github.com/ofirpress/self-ask">https://github.com/ofirpress/self-ask</a></td>
+  <td style="text-align:center">Self-ask Prompting</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/pdf/2305.08845.pdf">Large Language Models are Zero-Shot Rankers for Recommender Systems</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Tencent</td>
+  <td style="text-align:center">May 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center"></td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/abs/2305.10601">Tree of Thoughts: Deliberate Problem Solving with Large Language Models</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Deepmind, Princeton</td>
+  <td style="text-align:center">May 2023</td>
+  <td style="text-align:center"><a href="https://github.com/princeton-nlp/tree-of-thought-llm">https://github.com/princeton-nlp/tree-of-thought-llm</a></td>
+  <td style="text-align:center">Chain of Thought</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://www.kdnuggets.com/2023/07/power-chain-thought-prompting-large-language-models.html">Unraveling the Power of Chain-of-Thought Prompting in Large Language Models</a></td>
+  <td style="text-align:center">Blog</td>
+  <td style="text-align:center">KDNuggets</td>
+  <td style="text-align:center">July 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">Chain of Thought</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/pdf/2309.04269.pdf">From Sparse to Dense: GPT-4 Summarization with Chain of Density Prompting</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Salesforce, Columbia, MIT</td>
+  <td style="text-align:center">September 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">Chain of Density</td>
+</tr>
+<tr>
+  <td style="text-align:left"><a href="https://arxiv.org/abs/2309.16797?fbclid=IwAR1o-VI0DSwNOawBAQAcv0adoDakSWrgwPuLxWqJhLdCbouuZBA0Gm7Sy8I">Promptbreeder: Self-Referential Self-Improvement Via Prompt Evolution</a></td>
+  <td style="text-align:center">Paper</td>
+  <td style="text-align:center">Deepmind</td>
+  <td style="text-align:center">October 2023</td>
+  <td style="text-align:center"></td>
+  <td style="text-align:center">Evolutionary Algorithm</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h1><p>In this notebook, we introduced methods for changing prompts to modify the behavior of LLM APIs. 
+You learned how to set up system messages for ChatGPT, use prompt templates with Langchain, and about some research directions in programmatic prompt engineering.</p>
+<p>In the next section, we will take a step back from prompt structures and think about what information is going into the prompt.
+More specifically you will learn about how to condition LLM continuations on your data with retrieval-augmented generation (RAG) pipelines, and the latest infrastructure people are using to implement these patterns at scale.</p>
+
+</div>
+</div>
+</div>
 </div>
 </body>
 

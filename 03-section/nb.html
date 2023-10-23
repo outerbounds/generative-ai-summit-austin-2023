@@ -14597,349 +14597,15 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Getting-off-the-Ground-with-LLMs">Getting off the Ground with LLMs<a class="anchor-link" href="#Getting-off-the-Ground-with-LLMs">&#182;</a></h1><p>In this section, we will walk through how to access cutting-edge LLMs from your Python codes.
-We will walk through the basics of commercial APIs, open-source APIs, and a bit about their relative capabilities.</p>
-<h2 id="Commercial-APIs">Commercial APIs<a class="anchor-link" href="#Commercial-APIs">&#182;</a></h2><p>If you don't have a plan, but want to build a language model-driven solution, commercial APIs are a good way to start.</p>
-<p>This section shows you how to get started with the leading commercial APIs as of October 2023:</p>
-<ul>
-<li><a href="https://platform.openai.com/docs/api-reference">OpenAI</a></li>
-<li><a href="https://docs.cohere.com/reference/about">Cohere</a></li>
-<li><a href="https://docs.ai21.com/reference/python-sdk">Jurassic-2</a> from <a href="https://www.ai21.com/">A21 Labs</a></li>
-<li><a href="https://github.com/anthropics/anthropic-sdk-python">Claude</a> from Anthropic</li>
-</ul>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Dependencies">Dependencies<a class="anchor-link" href="#Dependencies">&#182;</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-qqq<span class="w"> </span>openai<span class="w"> </span>cohere<span class="w"> </span>ai21<span class="w"> </span>transformers
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Notebook display</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
-
-<span class="c1">### Data processing</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="c1">### Commerical LLM providers</span>
-<span class="kn">import</span> <span class="nn">openai</span>
-<span class="kn">import</span> <span class="nn">cohere</span>
-<span class="kn">import</span> <span class="nn">ai21</span>
-
-<span class="c1">### Open-source LLMs</span>
-<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">pipeline</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>/home/workspace/mambaforge/envs/sandbox-tutorial/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-None of PyTorch, TensorFlow &gt;= 2.0, or Flax have been found. Models won&#39;t be available and only tokenizers, configuration and file/data utilities can be used.
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Set-API-Keys">Set API Keys<a class="anchor-link" href="#Set-API-Keys">&#182;</a></h3><p>Go to these links to find your tokens (after signing up):</p>
-<ul>
-<li><a href="https://platform.openai.com/account/api-keys">OpenAI</a></li>
-<li><a href="https://dashboard.cohere.com/api-keys">Cohere</a></li>
-<li><a href="https://studio.ai21.com/account/api-key">A21 Labs</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">openai_key</span> <span class="o">=</span> <span class="o">...</span>
-<span class="n">cohere_key</span> <span class="o">=</span> <span class="o">...</span>
-<span class="n">ai21_key</span> <span class="o">=</span> <span class="o">...</span>
-<span class="c1"># Note: Did not include Claude here, as SDK/API access is gated: https://docs.anthropic.com/claude/docs/getting-access-to-claude</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="The-common-prompt">The common prompt<a class="anchor-link" href="#The-common-prompt">&#182;</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PROMPT</span> <span class="o">=</span> <span class="s2">&quot;How is generative AI affecting the infrastrucutre machine learning developers need access to?&quot;</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Hello-OpenAI-API">Hello OpenAI API<a class="anchor-link" href="#Hello-OpenAI-API">&#182;</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">openai</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">openai_key</span>
-<span class="n">gpt35_completion</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">ChatCompletion</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-  <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span>
-  <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">PROMPT</span><span class="p">}]</span>
-<span class="p">)</span>
-<span class="n">gpt35_text_response</span> <span class="o">=</span> <span class="n">gpt35_completion</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s1">&#39;choices&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;message&#39;</span><span class="p">][</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Hello-Cohere-API">Hello Cohere API<a class="anchor-link" href="#Hello-Cohere-API">&#182;</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">co</span> <span class="o">=</span> <span class="n">cohere</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">cohere_key</span><span class="p">)</span>
-<span class="n">cohere_cmd_completion</span> <span class="o">=</span> <span class="n">co</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">PROMPT</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">)</span>
-<span class="n">cohere_cmd_response</span> <span class="o">=</span> <span class="n">cohere_cmd_completion</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Hello-A21-Labs-API">Hello A21 Labs API<a class="anchor-link" href="#Hello-A21-Labs-API">&#182;</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ai21</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">ai21_key</span>
-<span class="n">jurassic2_completion</span> <span class="o">=</span> <span class="n">ai21</span><span class="o">.</span><span class="n">Completion</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;j2-mid&quot;</span><span class="p">,</span> 
-    <span class="n">prompt</span><span class="o">=</span><span class="n">PROMPT</span><span class="p">,</span>
-    <span class="n">maxTokens</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">jurassic2_response</span> <span class="o">=</span> <span class="n">jurassic2_completion</span><span class="o">.</span><span class="n">completions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span>
-
-<span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-
-<span class="s2">**OpenAI GPT3.5**: </span><span class="si">{</span><span class="n">gpt35_text_response</span><span class="si">}</span>
-
-<span class="si">{</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">160</span><span class="si">}</span>
-
-<span class="s2">**Cohere Command**: </span><span class="si">{</span><span class="n">cohere_cmd_response</span><span class="si">}</span>
-
-<span class="si">{</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">160</span><span class="si">}</span>
-
-<span class="s2">**AI21 Jurassic2**: </span><span class="si">{</span><span class="n">jurassic2_response</span><span class="si">}</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
-
-
-
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/markdown">
-<p><strong>OpenAI GPT3.5</strong>: Generative AI is significantly impacting the infrastructure requirements for machine learning developers. Traditionally, machine learning development focused on supervised learning, where large amounts of labeled data were required. This necessitated the need for extensive compute resources and storage to handle the data processing and training tasks.</p>
-<p>However, generative AI, which includes techniques like generative adversarial networks (GANs) and transformers, has revolutionized this paradigm. It enables the generation of new data samples, such as images, text, or even complete programs, without the need for extensive manual labeling. This has several implications for infrastructure:</p>
+<h1 id="Retrieval-Augmented-Generation">Retrieval Augmented Generation<a class="anchor-link" href="#Retrieval-Augmented-Generation">&#182;</a></h1><p>The last section introduce prompt engineering techniques. 
+In this session we will extend this idea by</p>
 <ol>
-<li><p>Computing power: Training generative models can be computationally intensive and often requires powerful hardware, such as GPUs or even specialized hardware like TPUs (Tensor Processing Units). Developers need access to these resources to train and fine-tune generative models effectively.</p>
-</li>
-<li><p>Data storage and management: Generative models typically require large-scale datasets, which need to be stored and efficiently managed. Handling significant amounts of data necessitates scalable storage systems that provide fast access and retrieval speeds.</p>
-</li>
-<li><p>Data preprocessing: Preparing data for generative AI involves various preprocessing steps like cleaning, augmentation, and formatting. This requires efficient data processing frameworks that can handle these operations at scale.</p>
-</li>
-<li><p>Model sharing and collaboration: As the field advances, developers need platforms and infrastructure to share pretrained models, collaborate on model development, and perform model evaluations. This requires robust infrastructure to host and distribute the models and frameworks to organize collaboration effectively.</p>
-</li>
-<li><p>Real-time inference: Deploying generative models in real-time applications necessitates low-latency inference. This requires efficient model serving infrastructure that can handle high-throughput requests and respond quickly.</p>
-</li>
-</ol>
-<p>Overall, generative AI has increased the demand for infrastructure resources, including powerful compute, efficient data management, preprocessing tools, collaborative platforms, and real-time deployment capabilities. Machine learning developers need access to such resources to effectively experiment, train, and deploy generative models.</p>
-<p>================================================================================================================================================================</p>
-<p><strong>Cohere Command</strong>: As generative AI grows in popularity, it is placing greater emphasis on the infrastructure that machine learning developers require. In particular, the increasing demand for high-performance computing resources like GPUs and TPUs is necessitating a rethinking of how these resources are delivered.</p>
-<p>Currently, cloud providers such as Google, Microsoft, and Amazon are bolstering their infrastructure to better support generative AI. This includes upgrades to their hardware as well as the development of new services and products that are specifically tailored for generative AI workloads. For instance, Google has released the generative AI cloud service AI Hub, while Microsoft has created the Azure AI Platform.</p>
-<p>In addition to cloud providers, hardware manufacturers like NVIDIA and AMD are developing more specialized hardware for generative AI. This includes chips that are designed specifically for AI workloads, such as NVIDIA's A100 and AMD's Radeon Instinct.</p>
-<p>As the demand for generative AI continues to rise, it is likely that we will see further developments in the infrastructure that machine learning developers need to access. This includes improvements to both hardware and software, as well as the creation of new tools and services that are specifically designed for generative AI.</p>
-<p>================================================================================================================================================================</p>
-<p><strong>AI21 Jurassic2</strong>: 
-Generative AI is a branch of machine learning that aims to create artificial models that can generate new synthetic data or patterns based on learned data. This technology has the potential to significantly impact the infrastructure that machine learning developers need access to, as it requires large amounts of data and complex computational resources. Here are some ways in which generative AI is affecting the infrastructure required by machine learning developers:</p>
-<ol>
-<li><p>Enhanced Data Collection: Generative AI requires large amounts of data to learn from and create new patterns. As a result, there is a growing demand for data collection efforts and the ability to store and manage vast amounts of data. This requires robust data storage infrastructure, including databases and file systems that can handle the large volumes of data.</p>
-</li>
-<li><p>Increased Computing Power: Generative AI models are highly computationally intensive and require very powerful computing infrastructure, such as high-performance computing (HPC) systems or cloud clusters. These computing resources are used to train and fine-tune the models, as well as to generate new patterns and data. Machine learning developers need access to adequate computing infrastructure to train and run these models effectively.</p>
-</li>
-<li><p>Data Processing and Preprocessing: Generative AI models are complex and require preprocessing and manipulation of raw data. This includes tasks such as normalizing the data, handling missing values, and converting data types. Developers need infrastructure that can handle these preprocessing tasks quickly and efficiently, and that enables the integration of various data sources.</p>
-</li>
-<li><p>Model Training and Evaluation: Training and evaluating generative AI models is computationally intensive and requires significant resources. This includes access to computing infrastructure that can handle the iterative nature of model training, as well as the parallelization of computations to maximize performance.</p>
-</li>
+<li>searching through your own data,</li>
+<li>returning the most relevant results, and</li>
+<li>conditioning LLM continuations with these relevant facts.</li>
 </ol>
 
 </div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Endpoint-support-across-APIs">Endpoint support across APIs<a class="anchor-link" href="#Endpoint-support-across-APIs">&#182;</a></h2>
-</div>
 </div>
 </div>
 </div>
@@ -14949,122 +14615,16 @@ Generative AI is a branch of machine learning that aims to create artificial mod
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>A <strong>rough</strong> picture of what endpoints these APIs have available as of October 20, 2023, without much more effort than what you just saw.</p>
-<blockquote>
-<p>Note: You can make each of these models do almost anything, making this all muddy. <br/>The point of this table is to highlight which of these APIs have documented endpoints for certain tasks.</p>
-</blockquote>
-<center>
-<table>
-<thead>
-<tr>
-  <th style="text-align:center">Endpoint / API</th>
-  <th style="text-align:center">OpenAI</th>
-  <th style="text-align:center">Cohere</th>
-  <th style="text-align:center">Claude</th>
-  <th style="text-align:center">A21</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td style="text-align:center">Prompt-to-response</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-</tr>
-<tr>
-  <td style="text-align:center">Chat-to-response</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-</tr>
-<tr>
-  <td style="text-align:center">Text embeddings</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">✅</td>
-</tr>
-<tr>
-  <td style="text-align:center">Fine-tuning</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">✅</td>
-</tr>
-<tr>
-  <td style="text-align:center">Language detection</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">❌</td>
-</tr>
-<tr>
-  <td style="text-align:center">Raw document processing</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">✅</td>
-</tr>
-<tr>
-  <td style="text-align:center">Rerank / document relevance</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">✅</td>
-</tr>
-<tr>
-  <td style="text-align:center">Text/image to image</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">❌</td>
-</tr>
-<tr>
-  <td style="text-align:center">Audio-to-text</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">❌</td>
-</tr>
-<tr>
-  <td style="text-align:center">Moderations / toxicitiy</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">✅</td>
-  <td style="text-align:center">❌</td>
-  <td style="text-align:center">❌</td>
-</tr>
-</tbody>
-</table>
-</center>
-<p>Some opinions related to this table:</p>
-<ul>
-<li>If you want to pay for the <strong>best chat model</strong> --&gt;<ul>
-<li>OpenAI's GPT4 API is the current gold standard.</li>
-</ul>
-</li>
-<li>If you want <strong>multimodal</strong> --&gt;<ul>
-<li>OpenAI APIs are great - <a href="https://platform.openai.com/docs/api-reference/images">Images</a>, <a href="https://platform.openai.com/docs/api-reference/audio">Audio</a></li>
-<li>Stability AI has some nice products not listed here.</li>
-<li>Check out this recent survey paper: <a href="https://arxiv.org/abs/2309.17421">The Dawn of LMMs: Preliminary Explorations with GPT-4V(ision)</a></li>
-</ul>
-</li>
-<li>If you care a lot about <strong>content moderation</strong> --&gt;<ul>
-<li><a href="https://docs.cohere.com/docs/content-moderation-with-classify">Cohere</a> and <a href="https://platform.openai.com/docs/api-reference/moderations">OpenAI</a> have the most API support</li>
-</ul>
-</li>
-<li>If you want fine-grained <strong>multi-lingual models</strong> --&gt;<ul>
-<li>Try Cohere's <a href="https://docs.cohere.com/docs/multilingual-language-models">Multilingual Embedding</a> APIs</li>
-</ul>
-</li>
-<li>If you want a model that can <strong>analyze grammar</strong> --&gt;<ul>
-<li>Try A21's <a href="https://docs.ai21.com/reference/text-improvements-api-ref">Text Improvements</a> and <a href="https://docs.ai21.com/reference/gec-api-ref">Grammatical Error Corrections</a> APIs</li>
-</ul>
-</li>
-<li>The public Claude product is a personal favorite, however their API access and feature support is lacking behind others in this list</li>
-</ul>
-<p>Of course, you can also try meshing them together if you have the budget and engineering will!</p>
+<h1 id="The-RAG-Lifecycle">The RAG Lifecycle<a class="anchor-link" href="#The-RAG-Lifecycle">&#182;</a></h1><p>How can we use your own unstructured data like blog posts, documentation, and video collections to inform LLMs?</p>
+<ol>
+<li>Chunk the unstructured data</li>
+<li>Compute embeddings on the chunks using a model</li>
+<li>Index the embeddings</li>
+<li>Based on user queries, run vector similarity searches against the embeddings</li>
+<li>Return the top K most similar vectors</li>
+<li>Decode the vectors into the original data format</li>
+<li>Use the &quot;similar&quot; data in prompts</li>
+</ol>
 
 </div>
 </div>
@@ -15076,13 +14636,23 @@ Generative AI is a branch of machine learning that aims to create artificial mod
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Getting-Started-with-Open-source-Models">Getting Started with Open-source Models<a class="anchor-link" href="#Getting-Started-with-Open-source-Models">&#182;</a></h1><h2 id="Discussion">Discussion<a class="anchor-link" href="#Discussion">&#182;</a></h2><ul>
-<li>Why would you want to use open-source LLMs?</li>
-<li>Will they ever really be competitive?<ul>
-<li>What drives the competition if OpenAI's models are 10x bigger and performance keeps scaling with model size?</li>
-</ul>
-</li>
-</ul>
+<h1 id="Chunking-documents-and-pushing-them-to-VectorDBs">Chunking documents and pushing them to VectorDBs<a class="anchor-link" href="#Chunking-documents-and-pushing-them-to-VectorDBs">&#182;</a></h1>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The process begins with workflows that chunk data and upload the embedded chunks into vector storage.
+There are tons of open-source and commercial vector storage solutions coming on the market. 
+Of course there are many nuances that can be compared, but the APIs generally do the same jobs.</p>
+<img style="display: block; float: center; max-width: 80%; height: auto; margin: auto; float: none!important;" src="./vector-storage-solutions.png"/>
+<center> <a href="https://www.singlestore.com/blog/choosing-a-vector-database-for-your-gen-ai-stack/"> Source </a></center>
+<p>Let's use Pinecone to guide our example in this notebook.</p>
 
 </div>
 </div>
@@ -15094,10 +14664,7 @@ Generative AI is a branch of machine learning that aims to create artificial mod
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Load-Model">Load Model<a class="anchor-link" href="#Load-Model">&#182;</a></h2><p>In this section we will see how to load a pre-trained model from the HuggingFace Hub. 
-You can shop for models <a href="https://huggingface.co/models">here</a>.</p>
-<p>After, you'll see how to use these models for text classification and text generation, similar to the core mechanism of how the commerical APIs you saw above are generating text.</p>
-
+<h2 id="Dependencies">Dependencies<a class="anchor-link" href="#Dependencies">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -15109,246 +14676,7 @@ You can shop for models <a href="https://huggingface.co/models">here</a>.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># T5 paper: https://arxiv.org/pdf/2210.11416.pdf</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;t5-small&quot;</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>T5Model(
-  (shared): Embedding(32128, 512)
-  (encoder): T5Stack(
-    (embed_tokens): Embedding(32128, 512)
-    (block): ModuleList(
-      (0): T5Block(
-        (layer): ModuleList(
-          (0): T5LayerSelfAttention(
-            (SelfAttention): T5Attention(
-              (q): Linear(in_features=512, out_features=512, bias=False)
-              (k): Linear(in_features=512, out_features=512, bias=False)
-              (v): Linear(in_features=512, out_features=512, bias=False)
-              (o): Linear(in_features=512, out_features=512, bias=False)
-              (relative_attention_bias): Embedding(32, 8)
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-          (1): T5LayerFF(
-            (DenseReluDense): T5DenseActDense(
-              (wi): Linear(in_features=512, out_features=2048, bias=False)
-              (wo): Linear(in_features=2048, out_features=512, bias=False)
-              (dropout): Dropout(p=0.1, inplace=False)
-              (act): ReLU()
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-        )
-      )
-      (1-5): 5 x T5Block(
-        (layer): ModuleList(
-          (0): T5LayerSelfAttention(
-            (SelfAttention): T5Attention(
-              (q): Linear(in_features=512, out_features=512, bias=False)
-              (k): Linear(in_features=512, out_features=512, bias=False)
-              (v): Linear(in_features=512, out_features=512, bias=False)
-              (o): Linear(in_features=512, out_features=512, bias=False)
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-          (1): T5LayerFF(
-            (DenseReluDense): T5DenseActDense(
-              (wi): Linear(in_features=512, out_features=2048, bias=False)
-              (wo): Linear(in_features=2048, out_features=512, bias=False)
-              (dropout): Dropout(p=0.1, inplace=False)
-              (act): ReLU()
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-        )
-      )
-    )
-    (final_layer_norm): T5LayerNorm()
-    (dropout): Dropout(p=0.1, inplace=False)
-  )
-  (decoder): T5Stack(
-    (embed_tokens): Embedding(32128, 512)
-    (block): ModuleList(
-      (0): T5Block(
-        (layer): ModuleList(
-          (0): T5LayerSelfAttention(
-            (SelfAttention): T5Attention(
-              (q): Linear(in_features=512, out_features=512, bias=False)
-              (k): Linear(in_features=512, out_features=512, bias=False)
-              (v): Linear(in_features=512, out_features=512, bias=False)
-              (o): Linear(in_features=512, out_features=512, bias=False)
-              (relative_attention_bias): Embedding(32, 8)
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-          (1): T5LayerCrossAttention(
-            (EncDecAttention): T5Attention(
-              (q): Linear(in_features=512, out_features=512, bias=False)
-              (k): Linear(in_features=512, out_features=512, bias=False)
-              (v): Linear(in_features=512, out_features=512, bias=False)
-              (o): Linear(in_features=512, out_features=512, bias=False)
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-          (2): T5LayerFF(
-            (DenseReluDense): T5DenseActDense(
-              (wi): Linear(in_features=512, out_features=2048, bias=False)
-              (wo): Linear(in_features=2048, out_features=512, bias=False)
-              (dropout): Dropout(p=0.1, inplace=False)
-              (act): ReLU()
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-        )
-      )
-      (1-5): 5 x T5Block(
-        (layer): ModuleList(
-          (0): T5LayerSelfAttention(
-            (SelfAttention): T5Attention(
-              (q): Linear(in_features=512, out_features=512, bias=False)
-              (k): Linear(in_features=512, out_features=512, bias=False)
-              (v): Linear(in_features=512, out_features=512, bias=False)
-              (o): Linear(in_features=512, out_features=512, bias=False)
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-          (1): T5LayerCrossAttention(
-            (EncDecAttention): T5Attention(
-              (q): Linear(in_features=512, out_features=512, bias=False)
-              (k): Linear(in_features=512, out_features=512, bias=False)
-              (v): Linear(in_features=512, out_features=512, bias=False)
-              (o): Linear(in_features=512, out_features=512, bias=False)
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-          (2): T5LayerFF(
-            (DenseReluDense): T5DenseActDense(
-              (wi): Linear(in_features=512, out_features=2048, bias=False)
-              (wo): Linear(in_features=2048, out_features=512, bias=False)
-              (dropout): Dropout(p=0.1, inplace=False)
-              (act): ReLU()
-            )
-            (layer_norm): T5LayerNorm()
-            (dropout): Dropout(p=0.1, inplace=False)
-          )
-        )
-      )
-    )
-    (final_layer_norm): T5LayerNorm()
-    (dropout): Dropout(p=0.1, inplace=False)
-  )
-)
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Want to learn more about transformers like the BERT and GPT family and how they work?</p>
-<ul>
-<li>Sebastian Raschka recently gave his description of the history of the transformer in this concise <a href="https://www.linkedin.com/posts/sebastianraschka_llms-largelanguagemodels-ai-activity-7121484400701186048--47t?utm_source=share&amp;utm_medium=member_desktop">post</a>.</li>
-<li>Check out the amazing <a href="https://github.com/jessevig/bertviz">Bertviz</a> tool by <a href="https://github.com/jessevig/">jessevig</a>. you can see a pre-loaded demo <a href="https://colab.research.google.com/drive/1hXIQ77A4TYS4y3UthWF-Ci7V7vVUoxmQ?usp=sharing#scrollTo=twSVFOM9SopW">here</a>.</li>
-</ul>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="HuggingFace-Pipeline-API">HuggingFace Pipeline API<a class="anchor-link" href="#HuggingFace-Pipeline-API">&#182;</a></h2><p>In the previous section we saw how to load a model, in this section we see the easiest way to use HuggingFace models for inference like with the earlier examples using commercial APIs.</p>
-<p>You will see how the <a href="https://huggingface.co/docs/transformers/v4.34.0/en/main_classes/pipelines">HuggingFace Pipeline API</a> perform tasks including:</p>
-<ul>
-<li><a href="#text-classification">Text Classsification</a></li>
-<li><a href="#text-generation">Text Generation</a></li>
-<li>many more tasks <a href="https://huggingface.co/tasks">here</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Text-Generation">Text Generation<a class="anchor-link" href="#Text-Generation">&#182;</a></h2><p><a href="https://huggingface.co/tasks/text-generation">https://huggingface.co/tasks/text-generation</a></p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;bigscience/bloom-560m&quot;</span> <span class="c1"># https://huggingface.co/bigscience/bloom-560m</span>
-<span class="n">generator</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-generation&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span> <span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
-
-<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;The Generative AI World Summit is a&quot;</span> 
-<span class="n">response</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">do_sample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-qqq<span class="w"> </span><span class="s2">&quot;pinecone-client[grpc]&quot;</span>
 </pre></div>
 
      </div>
@@ -15364,11 +14692,9 @@ You can shop for models <a href="https://huggingface.co/models">here</a>.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">**Prompt**: </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span>
-
-<span class="s2">**</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39;s continuation**: </span><span class="si">{</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;generated_text&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">...</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pinecone_api_key</span><span class="o">=...</span>
+<span class="n">pinecone_environ</span><span class="o">=</span><span class="s2">&quot;us-central1-gcp&quot;</span>
+<span class="n">openai_key</span> <span class="o">=</span> <span class="o">...</span>
 </pre></div>
 
      </div>
@@ -15383,12 +14709,11 @@ You can shop for models <a href="https://huggingface.co/models">here</a>.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Text-Classification">Text Classification<a class="anchor-link" href="#Text-Classification">&#182;</a></h2><p><a href="https://huggingface.co/tasks/text-classification">https://huggingface.co/tasks/text-classification</a></p>
-
+<h2 id="Manual-index-upload">Manual index upload<a class="anchor-link" href="#Manual-index-upload">&#182;</a></h2>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15396,22 +14721,41 @@ You can shop for models <a href="https://huggingface.co/models">here</a>.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># More text classification models: https://huggingface.co/models?pipeline_tag=text-classification&amp;sort=trending</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;SamLowe/roberta-base-go_emotions&quot;</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pinecone</span>
+<span class="n">pinecone</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">pinecone_api_key</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">pinecone_environ</span><span class="p">)</span>
 
-<span class="c1"># Create a text classification pipeline using HuggingFace transformers pipeline.</span>
-<span class="n">classifier_pipe</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-classification&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+<span class="n">index_name</span> <span class="o">=</span> <span class="s2">&quot;gen-ai-summit-test&quot;</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span>
+</pre></div>
 
-<span class="c1"># Sample data we want to classify the sentiment of.</span>
-<span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;I am feeling inspired today. What a time to be alive!&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;This talk is informative, but a bit high-level, where I can find more details?&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;I wonder about all the hype around Generative AI, is it smoke and mirrors?&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Building production-grade machine learning systems is challenging.&quot;</span>
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rag_tools.embedders.embedder</span> <span class="kn">import</span> <span class="n">SentenceTransformerEmbedder</span>
+
+<span class="n">text_sample</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Hello Gen AI friends!&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Metaflow helps you build production machine learning workflows&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Lots of people recognize machine learning systems require robust workflows&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="c1"># Run the pipeline!</span>
-<span class="n">classifier_pipe</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span>
+<span class="c1"># https://huggingface.co/sentence-transformers/paraphrase-MiniLM-L6-v2</span>
+<span class="n">embedding_model</span> <span class="o">=</span> <span class="s2">&quot;paraphrase-MiniLM-L6-v2&quot;</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">SentenceTransformerEmbedder</span><span class="p">(</span><span class="n">embedding_model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">text_sample</span><span class="p">)</span>
+
+<span class="n">dimension</span><span class="o">=</span><span class="n">embedding</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -15419,30 +14763,93 @@ You can shop for models <a href="https://huggingface.co/models">here</a>.</p>
 </div>
 </div>
 
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pinecone</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">pinecone</span><span class="o">.</span><span class="n">GRPCIndex</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span>
+</pre></div>
 
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[{&#39;label&#39;: &#39;excitement&#39;, &#39;score&#39;: 0.24082745611667633},
- {&#39;label&#39;: &#39;admiration&#39;, &#39;score&#39;: 0.5622110366821289},
- {&#39;label&#39;: &#39;curiosity&#39;, &#39;score&#39;: 0.5444050431251526},
- {&#39;label&#39;: &#39;neutral&#39;, &#39;score&#39;: 0.5019526481628418}]</pre>
+     </div>
+</div>
+</div>
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">upsert_response</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
+    <span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="n">embedding</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text_sample</span><span class="p">[</span><span class="mi">0</span><span class="p">]}},</span>
+        <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="n">embedding</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text_sample</span><span class="p">[</span><span class="mi">1</span><span class="p">]}},</span> 
+        <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="n">embedding</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text_sample</span><span class="p">[</span><span class="mi">2</span><span class="p">]}}</span> 
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;What does Metaflow do?&quot;</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">matches</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">matches</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s1">&#39;matches&#39;</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pinecone</span><span class="o">.</span><span class="n">delete_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div>
@@ -15452,13 +14859,513 @@ You can shop for models <a href="https://huggingface.co/models">here</a>.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h1><p>In this lesson, you've learned:</p>
-<ul>
-<li>how to programmatically query the leading commercial generative AI APIs</li>
-<li>which endpoints are supported by the leading generative AI APIs</li>
-<li>how to get started with replicating the core modeling loops of generative AI using open-source</li>
-</ul>
-<p>In the next lessons we will discuss methods for increasing the relevance of LLM responses, starting with basic prompt engineering, retrieval-augmented generation (RAG), and changing the model itself through fine-tuning and serving it behind an API you can control.</p>
+<h2 id="Chunk-sample-data">Chunk sample data<a class="anchor-link" href="#Chunk-sample-data">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-qqq<span class="w"> </span>git+https://github.com/outerbounds/rag-demo<span class="w"> </span><span class="err">\</span>
+    <span class="n">python</span><span class="o">-</span><span class="n">frontmatter</span> \
+    <span class="n">pyyaml</span> \
+    <span class="n">python</span><span class="o">-</span><span class="n">slugify</span> \
+    <span class="n">GitPython</span> \
+    <span class="n">sentence</span><span class="o">-</span><span class="n">transformers</span> \
+    <span class="n">seaborn</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rag_tools.filetypes.markdown</span> <span class="kn">import</span> <span class="n">Mixin</span> <span class="k">as</span> <span class="n">Markdown</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">Markdown</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">repo_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;deployment_url&quot;</span><span class="p">:</span> <span class="s2">&quot;docs.metaflow.org&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;repository_path&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/Netflix/metaflow-docs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;repository_ref&quot;</span><span class="p">:</span> <span class="s2">&quot;master&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;base_search_path&quot;</span><span class="p">:</span> <span class="s2">&quot;docs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;exclude_paths&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;docs/v&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;exclude_files&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;README.md&quot;</span><span class="p">,</span> <span class="s2">&quot;README&quot;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">load_df_from_repo_list</span><span class="p">()</span>
+
+<span class="n">word_count_threshold</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">char_count_threshold</span> <span class="o">=</span> <span class="mi">25</span>
+
+<span class="c1"># Filter out rows with less than N words or  M chars.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">word_count</span> <span class="o">&gt;</span> <span class="n">word_count_threshold</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">char_count</span> <span class="o">&gt;</span> <span class="n">char_count_threshold</span><span class="p">]</span>
+
+<span class="n">df</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Create-embeddings">Create embeddings<a class="anchor-link" href="#Create-embeddings">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### from rag_tools.databases.vector_database import PineconeDB</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Instantiate an encoder</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">SentenceTransformerEmbedder</span><span class="p">(</span><span class="n">embedding_model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="c1"># Fetch docs from dataframe</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Encode documents</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="c1"># takes ~30-45 seconds on average in sandbox instance</span>
+<span class="n">dimension</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dimension is </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dimension</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Create-an-index">Create an index<a class="anchor-link" href="#Create-an-index">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pinecone</span>
+<span class="n">pinecone</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">pinecone_api_key</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">pinecone_environ</span><span class="p">)</span>
+
+<span class="n">index_name</span> <span class="o">=</span> <span class="s2">&quot;metaflow-documentation&quot;</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span> <span class="c1"># https://docs.pinecone.io/docs/indexes#distance-metrics</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">index_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pinecone</span><span class="o">.</span><span class="n">list_indexes</span><span class="p">():</span>
+    <span class="c1"># https://docs.pinecone.io/reference/create_index</span>
+    <span class="n">pinecone</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s2"> already exists&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Upsert-document-chunks">Upsert document chunks<a class="anchor-link" href="#Upsert-document-chunks">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ids</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># connect to the index</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pinecone</span><span class="o">.</span><span class="n">GRPCIndex</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span>
+
+<span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="n">emb</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">txt</span><span class="p">},}</span> 
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">emb</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">))</span>
+<span class="p">]</span>
+<span class="n">upsert_response</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">vectors</span><span class="o">=</span><span class="n">vectors</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Search-the-index">Search the index<a class="anchor-link" href="#Search-the-index">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># We want to find relevant data in our Pinecone index to condition the LLM on.</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;How do I specify conda dependencies in my flow?&quot;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="But-first...-a-benchmark-with-the-vanilla-LLM">But first... a benchmark with the vanilla LLM<a class="anchor-link" href="#But-first...-a-benchmark-with-the-vanilla-LLM">&#182;</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">human_template</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{user_query}</span><span class="s2">&quot;</span>
+<span class="n">chat_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="n">human_template</span><span class="p">)])</span>
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">openai_api_key</span><span class="o">=</span><span class="n">openai_key</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat</span><span class="p">(</span><span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="n">user_query</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Embed-and-match-our-search-vector">Embed and match our search vector<a class="anchor-link" href="#Embed-and-match-our-search-vector">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># embed with sentence transformer</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">vector</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">embed</span><span class="p">([</span><span class="n">query</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">matches</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">top_k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">matches</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s1">&#39;matches&#39;</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Example format of Pinecone&#39;s index.query(...).to_dict()[&#39;matches&#39;]</span>
+<span class="c1"># matches=[{&#39;id&#39;: &#39;vec264&#39;, &#39;score&#39;: 0.6444936, &#39;values&#39;: [], &#39;sparse_values&#39;: {&#39;indices&#39;: [], &#39;values&#39;: []}, &#39;metadata&#39;: {&#39;text&#39;: &#39;The above instructions work even if you use [`@conda`\n decorators](/scaling/dependencies#managing-dependencies-with-conda-decorator) in your\n code; you need, however, to ensure that the `conda` binary is available in your `PATH`.\n The easiest way to do this is to set the `PATH` environment variable to properly include\n the path to the `conda` binary if it is in a non-standard location. In VSCode, you can\n simply add this value in the env section of launch.json and in PyCharm, the UI allows\n you to set environment variables.&#39;}}, {&#39;id&#39;: &#39;vec412&#39;, &#39;score&#39;: 0.5956618, &#39;values&#39;: [], &#39;sparse_values&#39;: {&#39;indices&#39;: [], &#39;values&#39;: []}, &#39;metadata&#39;: {&#39;text&#39;: &#39;The `@pypi` and `@conda` decorators allow you to make arbitrary packages\n available to Metaflow steps, as if you were installing them manually with\n `pip install` or `conda install`. This functionality works in conjuction\n with [local code packaging](/scaling/dependencies/project-structure), so\n steps can execute in safely isolated, remote-execution friendly environments\n that contain all dependencies they need.\n \n Crucially, when using `@pypi` or `@conda` steps can **only** access packages\n that are explicitly included either in the code package or specified in the\n decorator. System-wide packages are not available by design, making sure that\n all dependencies are explicitly specified and managed, ensuring\n reproducibility and stability of the flow.\n \n All examples below work interchangeably with `@pypi` and `@conda`. The\n examples include both `@pypi` lines as well as `@conda` lines commented out,\n so you can easily test both the decorators. In a real-life setting, you\n would [use either `@conda` or `@pypi`](/scaling/dependencies/conda-vs-pypi).&#39;}}, {&#39;id&#39;: &#39;vec47&#39;, &#39;score&#39;: 0.5355435, &#39;values&#39;: [], &#39;sparse_values&#39;: {&#39;indices&#39;: [], &#39;values&#39;: []}, &#39;metadata&#39;: {&#39;text&#39;: &#39;The `@conda_base` decorator specifies what libraries should be made available for all steps of a flow.\n \n The libraries are installed from [Conda repositories](https://anaconda.org/). For more information, see [Managing External Libraries](/scaling/dependencies).\n \n \n \n &lt;DocSection type=&quot;decorator&quot; name=&quot;conda_base&quot; module=&quot;metaflow&quot; show_import=&quot;True&quot; heading_level=&quot;3&quot; link=&quot;https://github.com/Netflix/metaflow/tree/master/metaflow/plugins/conda/conda_flow_decorator.py#L7&quot;&gt;\n &lt;SigArgSection&gt;\n &lt;SigArg name=&quot;...&quot; /&gt;\n &lt;/SigArgSection&gt;\n &lt;Description summary=&quot;Specifies the Conda environment for all steps of the flow.&quot; extended_summary=&quot;Use `@conda_base` to set common libraries required by all\\nsteps and use `@conda` to specify step-specific additions.&quot; /&gt;\n &lt;ParamSection name=&quot;Parameters&quot;&gt;\n \t&lt;Parameter name=&quot;libraries&quot; type=&quot;Dict[str, str], default: {}&quot; desc=&quot;Libraries to use for this flow. The key is the name of the package\\nand the value is the version to use.&quot; /&gt;\n \t&lt;Parameter name=&quot;python&quot; type=&quot;str, optional&quot; desc=&quot;Version of Python to use, e.g. \&#39;3.7.4\&#39;. A default value of None means\\nto use the current Python version.&quot; /&gt;\n \t&lt;Parameter name=&quot;disabled&quot; type=&quot;bool, default: False&quot; desc=&quot;If set to True, disables Conda.&quot; /&gt;\n &lt;/ParamSection&gt;\n &lt;/DocSection&gt;&#39;}}, {&#39;id&#39;: &#39;vec314&#39;, &#39;score&#39;: 0.5200169, &#39;values&#39;: [], &#39;sparse_values&#39;: {&#39;indices&#39;: [], &#39;values&#39;: []}, &#39;metadata&#39;: {&#39;text&#39;: &quot;As shown above, `@project` guarantees that all flows linked together within the\n same project and branch are isolated from other deployments. However, sometimes\n you may want to depend on an upstream flow that is deployed outside of your\n branch. For instance, you may want to deploy a variant of a downstream\n workflow, like `SecondProjectFlow` above, while reusing results from an\n existing upstream flow, like `FirstProjectFlow`.\n \n You can accomplish this by specifying explicitly the project-branch name that\n you want to depend on. For instance, this line makes a flow depend on Alice&#39;s\n deployment regardless of the branch the flow is deployed on:\n \n ```python\n @trigger_on_finish(flow=&#39;variant_demo.user.alice.FirstProjectFlow&#39;)\n ```&quot;}}, {&#39;id&#39;: &#39;vec419&#39;, &#39;score&#39;: 0.51605517, &#39;values&#39;: [], &#39;sparse_values&#39;: {&#39;indices&#39;: [], &#39;values&#39;: []}, &#39;metadata&#39;: {&#39;text&#39;: &quot;When using `--environment=conda` or `--environment=pypi` all steps are executed in\n isolated environments. As a result, the steps don&#39;t have access to packages that are\n installed system-wide. This is desirable, as it makes the flow more reproducible as it\n doesn&#39;t depend on packages that may exist just in your environment.\n \n However, sometimes a need may arise to be able to access a system-wide package in one\n step, while using isolated environments in other steps. For instance, you may use\n [a custom Docker image](/scaling/dependencies/containers) in conjuction with `@pypi`\n or `@conda`, accessing packages directly from the image in a step.\n \n To make this possible, you can set `@conda(disabled=True)` or `@pypi(disabled=True)` at\n the step level. A step with PyPI/Conda disabled behaves as if the flow runs without\n `--environment`.\n \n To demonstrate this, consider this flow, `peekabooflow.py`, that prints out the path\n of the Python interpreter used in each step:\n \n ```python\n import sys\n from metaflow import FlowSpec, step, conda_base, conda\n \n @conda_base(python=&#39;3.9.13&#39;)\n class PeekabooFlow(FlowSpec):\n \n     @step\n     def start(self):\n         print(sys.executable)\n         self.next(self.peekaboo)\n \n     @conda(disabled=True)\n     @step\n     def peekaboo(self):\n         print(sys.executable)\n         self.next(self.end)\n \n     @step\n     def end(self):\n         print(sys.executable)\n \n if __name__ == &#39;__main__&#39;:\n     PeekabooFlow()\n ```\n Run the flow as usual:\n ```bash\n $ python peekabooflow.py --environment=conda run\n ```\n Notice how the path is the same in the `start` and `end` steps but different in the\n `peekaboo` step which uses a system-wide Python installation.&quot;}}]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">row_idxs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+    <span class="n">row_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">row_idxs</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">retrived_results</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">row_idxs</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">retrived_results</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Using-retrieved-results-in-prompts">Using retrieved results in prompts<a class="anchor-link" href="#Using-retrieved-results-in-prompts">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">env</span> TOKENIZERS_PARALLELISM=false
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-qqq<span class="w"> </span>langchain
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.prompts.chat</span> <span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+<span class="kn">from</span> <span class="nn">langchain.chat_models</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">system_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">You are a helpful assistant that translates help learners use Metaflow to build production-grade machine learning workflows.</span>
+<span class="s2">Here is some relevant context you can use, each with links to a page in the Metaflow documentation where the context is retrieved from:</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">context_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="si">{system_message}</span>
+
+<span class="si">{context}</span>
+
+<span class="s2">Use the above pieces of context to condition the response.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+ 
+<span class="n">_context</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">retrived_results</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">_context</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">### context: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">### url: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">row</span><span class="o">.</span><span class="n">contents</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">page_url</span>
+    <span class="p">)</span>
+
+<span class="n">human_template</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{user_query}</span><span class="s2">&quot;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">chat_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="n">context_template</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="n">human_template</span><span class="p">),</span>
+<span class="p">])</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">openai_api_key</span><span class="o">=</span><span class="n">openai_key</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">chat</span><span class="p">(</span><span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="n">user_query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">_context</span><span class="p">,</span> <span class="n">system_message</span><span class="o">=</span><span class="n">system_message</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span> 
+<span class="n">Markdown</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h1><p>In this notebook, you have seen how to unroll the core loop of a RAG pipeline for teaching LLMs how to condition their respnoses on your data. 
+In the next lesson, we will automate these workflows using Metaflow, so you can build reactive systems that run data chunking, cleaning, and indexing pipelines when data is updated.</p>
 
 </div>
 </div>
