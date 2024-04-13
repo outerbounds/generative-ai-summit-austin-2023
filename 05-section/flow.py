@@ -85,7 +85,7 @@ class DataTableProcessor(FlowSpec):
         assert fig is not None, "Figure is None, check plot_tld_count."
         return fig
 
-    @kubernetes(image="registry.hub.docker.com/eddieob/rag:1")
+    @kubernetes(image="registry.hub.docker.com/eddieob/rag:markdown-chunker-mf-task")
     @card
     @step
     def start(self):
@@ -143,7 +143,7 @@ class DataTableProcessor(FlowSpec):
 
         self.next(self.end)
 
-    @kubernetes(image="registry.hub.docker.com/eddieob/rag:1")
+    @kubernetes(image="registry.hub.docker.com/eddieob/rag:markdown-chunker-mf-task")
     @step
     def end(self):
 

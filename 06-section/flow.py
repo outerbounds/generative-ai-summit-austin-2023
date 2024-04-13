@@ -2,7 +2,7 @@ from metaflow import FlowSpec, step, Flow, namespace, current, kubernetes, envir
 import os
 
 env_vars = {
-    'PINECONE_API_KEY': ...,  
+    'PINECONE_API_KEY': '6330b704-12b8-408b-8e38-2a411aa83968',  
     'GCP_ENVIRONMENT': "us-central1-gcp",
     "TOKENIZERS_PARALLELISM": "false"
 }
@@ -22,19 +22,21 @@ class PineconeVectorIndexer(FlowSpec):
             run = Flow('DataTableProcessor').latest_successful_run
         return run.data.processed_df
 
-    @kubernetes(image="registry.hub.docker.com/eddieob/rag:all")
+    @kubernetes(image="registry.hub.docker.com/eddieob/rag:pinecone-vector-indexer-mf-task")
     @step
     def start(self):
         self.next(self.create_index)
 
-    @kubernetes(image="registry.hub.docker.com/eddieob/rag:all")
+    @kubernetes(image="registry.hub.docker.com/eddieob/rag:pinecone-vector-indexer-mf-task")
     @environment(vars=env_vars)
     @step
     def create_index(self):
 
-        from rag_tools.databases.vector_database import PineconeDB
+        # from rag_tools.databases.vector_database import PineconeDB
         from rag_tools.embedders.embedder import SentenceTransformerEmbedder
         import pandas as pd
+        from pinecone import Pinecone, ServerlessSpec
+        pc = Pinecone(api_key=os.environ['PINECONE_API_KEY'])
 
         # fetch data and embed it
         self.data = self.find_processed_df()
@@ -43,34 +45,55 @@ class PineconeVectorIndexer(FlowSpec):
         self.ids = list(range(1, len(docs) + 1))
         embeddings = encoder.embed(docs)
         self.dimension = len(embeddings[0])
+        self.metric = 'cosine'
 
         # create the index
-        db = PineconeDB()
-        db.create_index(self.index_name, dimension=self.dimension)
+        try:
+            pc.create_index(
+                name=self.index_name, 
+                dimension=self.dimension, 
+                metric=self.metric,
+                spec=ServerlessSpec(
+                    cloud="aws",
+                    region="us-west-2"
+                ) 
+            )
+        except:
+            print('Issue creating Pinecone index. If you are on the free plan, it is likely you have already met the index quota.')
 
         # put the vectors in the index - idempotent
-        db.upsert(self.index_name, embeddings, docs, self.ids)
+        index = pc.Index(self.index_name)
+        vectors = [
+            {'id': str(idx), 'values': emb.tolist(), 'metadata': {'text': txt},} 
+            for idx, (txt, emb) in enumerate(zip(docs, embeddings))
+        ]
+        index.upsert(vectors=vectors)
 
         self.next(self.end) 
 
-    @kubernetes(image="registry.hub.docker.com/eddieob/rag:all")
+    @kubernetes(image="registry.hub.docker.com/eddieob/rag:pinecone-vector-indexer-mf-task")
     @environment(vars=env_vars)
     @step
     def end(self):
 
-        from rag_tools.databases.vector_database import PineconeDB
+        # from rag_tools.databases.vector_database import PineconeDB
         from rag_tools.embedders.embedder import SentenceTransformerEmbedder
-        import pinecone
+        from pinecone import Pinecone, ServerlessSpec
+        pc = Pinecone(api_key=os.environ['PINECONE_API_KEY'])
+
 
         # create_index is idempotent
-        db = PineconeDB()
+        # db = PineconeDB()
 
         # search the index in a test query
         K = 3
         test_prompt = "aws"
         encoder = SentenceTransformerEmbedder(self.embedding_model, device="cpu")
         self._test_search_vector = encoder.embed([test_prompt])[0]
-        self._test_results = db.vector_search(self.index_name, self._test_search_vector, k=K).to_dict()
+        index = pc.Index(self.index_name)
+        matches = index.query(vector=self._test_search_vector.tolist(), top_k=K, include_metadata=True)
+        self._test_results = matches.to_dict()
+        # self._test_results = db.vector_search(self.index_name, self._test_search_vector, k=K).to_dict()
 
         for result in self._test_results['matches']:
             print("\n\nid: {} - score: {} \n\n{}\n\n".format(result['id'], result['score'], result['metadata']['text']))

@@ -4,7 +4,7 @@ from rag_tools.filetypes.markdown import Mixin as MarkdownMixin
 @schedule(weekly=True)
 class MarkdownChunker(FlowSpec, MarkdownMixin):
 
-    @kubernetes(image="registry.hub.docker.com/eddieob/rag:1")
+    @kubernetes(image="registry.hub.docker.com/eddieob/rag:markdown-chunker-mf-task")
     @step
     def start(self):
         """
@@ -24,7 +24,7 @@ class MarkdownChunker(FlowSpec, MarkdownMixin):
         self.df = self.load_df_from_repo_list()
         self.next(self.end)
 
-    @kubernetes(image="registry.hub.docker.com/eddieob/rag:1")
+    @kubernetes(image="registry.hub.docker.com/eddieob/rag:markdown-chunker-mf-task")
     @step
     def end(self):
         print("The flow has ended, with a dataframe of shape: {}".format(self.df.shape))
